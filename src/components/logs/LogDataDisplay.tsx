@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
 interface LogItem {
@@ -14,37 +15,40 @@ const LogDataDisplay = ({ resource }: { resource: string }) => {
   if (loading) return <p>Cargando {resource}...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!data) return <p>No hay datos para mostrar</p>;
-
   return (
-    <div >
-     {data.map(log => (
-      <div
-        key={log.id}
-        className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm p-4 mb-4 transition hover:shadow-md"
-      >
-        <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-400  mb-1">
-          {log.title}
-        </h3>
+    <div className="max-w-4xl mx-auto p-4 space-y-4">
+      {data.map((log) => (
+        <Link
+          key={log.id}
+          to={`/logs/${log.id}`}
+          className="block" // para que todo el div sea clickeable
+        >
+          <div className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm p-4 mb-4 transition hover:shadow-md cursor-pointer">
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-400 mb-1">
+              {log.title}
+            </h3>
 
-        <p className="text-gray-700 dark:text-gray-400 mb-2">
-          {log.content}
-        </p>
+            <p className="text-gray-700 dark:text-gray-400 mb-2">
+              {log.content}
+            </p>
 
-        <div className="text-sm text-gray-700 dark:text-gray-400 space-y-1">
-          <p>
-            <span className="font-medium">Categoría:</span> {log.category ?? "Sin categoría"}
-          </p>
-          <p>
-            <span className="font-medium">Fecha:</span> {new Date(log.date).toLocaleDateString('es-ES', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric'
-            })}
-          </p>
-        </div>
-      </div>
-    ))}
-
+            <div className="text-sm text-gray-700 dark:text-gray-400 space-y-1">
+              <p>
+                <span className="font-medium">Categoría:</span>{" "}
+                {log.category ?? "Sin categoría"}
+              </p>
+              <p>
+                <span className="font-medium">Fecha:</span>{" "}
+                {new Date(log.date).toLocaleDateString("es-ES", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };

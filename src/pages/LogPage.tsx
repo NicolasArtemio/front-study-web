@@ -1,9 +1,7 @@
-
-
 import FormLogWrapper from "../components/formLogWrapper/FormLogWrapper";
 import Navbar from "../components/navbar/Navbar";
 import MainSectionLog from "../components/sections/MainSectionLog";
-import ThemeToggleButton from "../components/themeToggleButton/ThemeToggleButton";
+import ThemeToggleButton from "../components/themeToggleButton/themeToggleButton";
 
 export default function LogPage() {
   return (
@@ -13,5 +11,5 @@ export default function LogPage() {
       <FormLogWrapper />
       <MainSectionLog />
     </>
-  )
+  );
 }

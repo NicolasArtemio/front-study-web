@@ -17,14 +17,10 @@ export const FormLog = (): JSX.Element => {
   const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const {
-    post,
-    loading,
-    error: postError,
-  } = usePost<LogFormData>();
+  const { post, loading, error: postError } = usePost<LogFormData>();
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -62,15 +58,15 @@ export const FormLog = (): JSX.Element => {
       onSubmit={handleSubmit}
       className="max-w-xl mx-auto mt-6 p-6 rounded-md shadow-md space-y-6 roboto-mono"
       style={{
-        backgroundColor: 'var(--background-color-light)',
-        color: 'var(--text-color-light)',
+        backgroundColor: "var(--background-color-light)",
+        color: "var(--text-color-light)",
       }}
     >
       <div>
         <label
           htmlFor="title"
           className="block text-sm font-medium"
-          style={{ color: 'var(--text-color-light)' }}
+          style={{ color: "var(--text-color-light)" }}
         >
           Título
         </label>
@@ -90,7 +86,7 @@ export const FormLog = (): JSX.Element => {
         <label
           htmlFor="content"
           className="block text-sm font-medium"
-          style={{ color: 'var(--text-color-light)' }}
+          style={{ color: "var(--text-color-light)" }}
         >
           Contenido
         </label>
@@ -109,7 +105,7 @@ export const FormLog = (): JSX.Element => {
         <label
           htmlFor="category"
           className="block text-sm font-medium"
-          style={{ color: 'var(--text-color-light)' }}
+          style={{ color: "var(--text-color-light)" }}
         >
           Categoría
         </label>
@@ -137,21 +133,19 @@ export const FormLog = (): JSX.Element => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full cursor-pointer flex justify-center items-center px-4 py-2 font-semibold rounded-md transition duration-200 ${loading
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-[#9d5da0] hover:bg-[#89508b] text-white'
-            }`}
+          className={`w-full cursor-pointer flex justify-center items-center px-4 py-2 font-semibold rounded-md transition duration-200 ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#9d5da0] hover:bg-[#89508b] text-white"
+          }`}
         >
-          {loading ? 'Enviando...' : 'Enviar'}
+          {loading ? "Enviando..." : "Enviar"}
         </button>
       </div>
-
 
       {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       {postError && <p className="text-red-500 text-sm mt-2">{postError}</p>}
       {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
     </form>
-
-
   );
 };

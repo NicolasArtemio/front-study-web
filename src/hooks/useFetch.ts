@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const BASE_URL = "http://localhost:3000/api/v1";
 
 function useFetch<T>(resource: string | null) {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     if (!resource) return;
 
     setLoading(true);
@@ -20,7 +20,7 @@ function useFetch<T>(resource: string | null) {
         }
         return response.json();
       })
-      .then((json: T) => {  // indica que json tiene tipo T
+      .then((json: T) => {
         setData(json);
         setLoading(false);
       })
@@ -30,7 +30,11 @@ function useFetch<T>(resource: string | null) {
       });
   }, [resource]);
 
-  return { data, loading, error };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { data, loading, error, refetch: fetchData };
 }
 
 export default useFetch;

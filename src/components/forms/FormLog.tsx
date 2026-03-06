@@ -56,7 +56,7 @@ export const FormLog = (): JSX.Element => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-xl mx-auto mt-6 p-6 rounded-md shadow-md space-y-6 roboto-mono"
+      className="max-w-xl mx-auto mt-6 p-6 rounded-md shadow-md space-y-6 roboto-mono relative z-50 overflow-visible"
       style={{
         backgroundColor: "var(--background-color-light)",
         color: "var(--text-color-light)",
@@ -76,7 +76,7 @@ export const FormLog = (): JSX.Element => {
           id="title"
           value={formData.title}
           onChange={handleChange}
-          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-3 py-2 bg-transparent"
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-purple-600 focus:border-purple-600 px-3 py-2 bg-transparent"
           placeholder="Escribe el título"
           required
         />
@@ -95,7 +95,7 @@ export const FormLog = (): JSX.Element => {
           id="content"
           value={formData.content}
           onChange={handleChange}
-          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-3 py-2 bg-transparent"
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-purple-600 focus:border-purple-600 px-3 py-2 bg-transparent"
           placeholder="Escribe el contenido"
           required
         />
@@ -114,7 +114,7 @@ export const FormLog = (): JSX.Element => {
           id="category"
           value={formData.category}
           onChange={handleChange}
-          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-3 py-2 bg-transparent"
+          className="relative z-20 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-purple-600 focus:border-purple-600 px-3 py-2 bg-white dark:bg-gray-800"
           required
         >
           <option value="">Selecciona una categoría</option>
@@ -133,11 +133,10 @@ export const FormLog = (): JSX.Element => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full cursor-pointer flex justify-center items-center px-4 py-2 font-semibold rounded-md transition duration-200 ${
-            loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#9d5da0] hover:bg-[#89508b] text-white"
-          }`}
+          className={`w-full cursor-pointer flex justify-center items-center px-4 py-2 font-semibold rounded-md transition duration-200 ${loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-purple-600 hover:bg-purple-700 text-white"
+            }`}
         >
           {loading ? "Enviando..." : "Enviar"}
         </button>

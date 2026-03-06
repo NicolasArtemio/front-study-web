@@ -33,6 +33,25 @@ export const endpoints = {
     update: (id: number | string) => `${BASE_URL}/recommendations/${id}`,
     delete: (id: number | string) => `${BASE_URL}/recommendations/${id}`,
   },
+  phraseCategories: {
+    base: `${BASE_URL}/phrase-categories`,
+    getAll: () => `${BASE_URL}/phrase-categories`,
+    getById: (id: number | string) => `${BASE_URL}/phrase-categories/${id}`,
+  },
+  phrases: {
+    base: `${BASE_URL}/phrases`,
+    getAll: (categoryId?: number) => categoryId ? `${BASE_URL}/phrases?categoryId=${categoryId}` : `${BASE_URL}/phrases`,
+    getById: (id: number | string) => `${BASE_URL}/phrases/${id}`,
+    update: (id: number | string) => `${BASE_URL}/phrases/${id}`,
+    complete: (id: number | string) => `${BASE_URL}/phrases/${id}/complete`,
+    getSessions: (id: number | string) => `${BASE_URL}/phrases/${id}/sessions`,
+  },
+  practiceSessions: {
+    base: `${BASE_URL}/practice-sessions`,
+    create: () => `${BASE_URL}/practice-sessions`,
+    getByPhrase: (phraseId: number | string) => `${BASE_URL}/practice-sessions/phrase/${phraseId}`,
+    delete: (id: number | string) => `${BASE_URL}/practice-sessions/${id}`,
+  },
 };
 
 export const buildUrl = (base: string, params?: Record<string, string | number>): string => {

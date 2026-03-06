@@ -11,7 +11,7 @@ export const MainSectionHome = () => {
       <section className="flex">
         <img src="./bg.webp" alt="" />
         <div className="mr-11 roboto-mono">
-          <h1 className="text-[#9d5da0] mt-36 text-3xl font-bold mb-4">¡Bienvenido a mi diario de inglés!</h1>
+          <h1 className="text-purple-600 mt-36 text-3xl font-bold mb-4">¡Bienvenido a mi diario de inglés!</h1>
           <div className="text-lg whitespace-pre-line">
             <Typewriter
               onInit={(typewriter) => {

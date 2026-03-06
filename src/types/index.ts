@@ -1,13 +1,13 @@
-export enum Category {
-  GRAMMAR = 'grammar',
-  LISTENING = 'listening',
-  VOCABULARY = 'vocabulary',
-  SPEAKING = 'speaking',
-  WRITING = 'writing',
-  PRONUNCIATION = 'pronunciation',
-  PHRASAL_VERBS = 'phrasal-verbs',
-  READING = 'reading',
-}
+export const Category = {
+  GRAMMAR: 'grammar',
+  LISTENING: 'listening',
+  VOCABULARY: 'vocabulary',
+  SPEAKING: 'speaking',
+  WRITING: 'writing',
+  PRONUNCIATION: 'pronunciation',
+  PHRASAL_VERBS: 'phrasal-verbs',
+  READING: 'reading',
+} as const;
 
 export type CategoryType = 'grammar' | 'listening' | 'vocabulary' | 'speaking' | 'writing' | 'pronunciation' | 'phrasal-verbs' | 'reading';
 
@@ -123,4 +123,58 @@ export interface ApiResponse<T> {
   data?: T;
   message?: string;
   error?: string;
+}
+
+export type PhraseDifficulty = 'beginner' | 'intermediate' | 'advanced';
+
+export interface PhraseCategory {
+  id: number;
+  name: string;
+  description: string;
+  icon: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Phrase {
+  id: number;
+  english: string;
+  spanish: string;
+  categoryId: number;
+  category?: PhraseCategory;
+  subcategory: string | null;
+  difficulty: PhraseDifficulty;
+  isQuestion: boolean;
+  relatedPhraseId: number | null;
+  relatedPhrase?: Phrase;
+  audioUrl: string | null;
+  pronunciation: string | null;
+  timesCompleted: number;
+  lastPracticed: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PracticeSession {
+  id: number;
+  phraseId: number;
+  phrase?: Phrase;
+  recordingUrl: string | null;
+  recordingBlob: string | null;
+  duration: number;
+  score: number | null;
+  createdAt: string;
+}
+
+export interface CreatePracticeSessionDTO {
+  phraseId: number;
+  recordingUrl?: string;
+  recordingBlob?: string;
+  duration?: number;
+  score?: number;
+}
+
+export interface UpdatePhraseDTO {
+  timesCompleted?: number;
+  lastPracticed?: string;
 }

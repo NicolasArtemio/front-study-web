@@ -7,6 +7,7 @@ import { endpoints } from "../services/api";
 import VoiceRecorder from "../components/VoiceRecorder";
 import AudioPlayer from "../components/AudioPlayer";
 import ConfirmationModal from "../components/modals/ConfirmationModal";
+import Layout from "../components/Layout";
 import type { Vocabulary, CreateVocabularyDTO } from "../types";
 
 const CATEGORIES = [
@@ -50,7 +51,7 @@ const VocabularyPage = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  
+
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -152,210 +153,211 @@ const VocabularyPage = () => {
   const isLoading = loading || posting || updating || deleting;
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Vocabulario</h1>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="px-4 py-2 bg-[#9d5da0] hover:bg-[#89508b] text-white rounded-md transition"
-          >
-            {showForm ? "Cerrar" : "Agregar palabra"}
-          </button>
-        </div>
+    <Layout showBreadcrumbs>
+      <div className="p-6">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Vocabulario</h1>
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+            >
+              {showForm ? "Cerrar" : "Agregar palabra"}
+            </button>
+          </div>
 
-        {showForm && (
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md space-y-4"
-          >
-            <div>
-              <label className="block text-sm font-medium mb-1">Palabra *</label>
-              <input
-                type="text"
-                name="word"
-                value={formData.word}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                placeholder="Inglés"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Definición</label>
-              <input
-                type="text"
-                name="meaning"
-                value={formData.meaning}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                placeholder="Traducción / Definición"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Ejemplo</label>
-              <textarea
-                name="example"
-                value={formData.example}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                placeholder="Oración de ejemplo"
-                rows={2}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
+          {showForm && (
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md space-y-4 relative z-50 overflow-visible"
+            >
               <div>
-                <label className="block text-sm font-medium mb-1">Categoría</label>
-                <select
-                  name="category"
-                  value={formData.category}
+                <label className="block text-sm font-medium mb-1">Palabra *</label>
+                <input
+                  type="text"
+                  name="word"
+                  value={formData.word}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                >
-                  <option value="">Seleccionar</option>
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value}>{cat.label}</option>
-                  ))}
-                </select>
+                  placeholder="Inglés"
+                  required
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Dificultad</label>
-                <select
-                  name="difficulty"
-                  value={formData.difficulty}
+                <label className="block text-sm font-medium mb-1">Definición</label>
+                <input
+                  type="text"
+                  name="meaning"
+                  value={formData.meaning}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                >
-                  <option value="">Seleccionar</option>
-                  {DIFFICULTIES.map((diff) => (
-                    <option key={diff.value} value={diff.value}>{diff.label}</option>
-                  ))}
-                </select>
+                  placeholder="Traducción / Definición"
+                />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-2">Audio (opcional)</label>
-              {formData.audioRecording ? (
-                <div className="space-y-2">
-                  <AudioPlayer src={formData.audioRecording} />
+              <div>
+                <label className="block text-sm font-medium mb-1">Ejemplo</label>
+                <textarea
+                  name="example"
+                  value={formData.example}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+                  placeholder="Oración de ejemplo"
+                  rows={2}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Categoría</label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className="relative z-20 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  >
+                    <option value="">Seleccionar</option>
+                    {CATEGORIES.map((cat) => (
+                      <option key={cat.value} value={cat.value}>{cat.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Dificultad</label>
+                  <select
+                    name="difficulty"
+                    value={formData.difficulty}
+                    onChange={handleChange}
+                    className="relative z-20 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  >
+                    <option value="">Seleccionar</option>
+                    {DIFFICULTIES.map((diff) => (
+                      <option key={diff.value} value={diff.value}>{diff.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Audio (opcional)</label>
+                {formData.audioRecording ? (
+                  <div className="space-y-2">
+                    <AudioPlayer src={formData.audioRecording} />
+                    <button
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, audioRecording: "" }))}
+                      className="text-sm text-red-500 hover:underline"
+                    >
+                      Eliminar audio
+                    </button>
+                  </div>
+                ) : (
+                  <VoiceRecorder onSave={handleAudioSave} />
+                )}
+              </div>
+
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+              {message && <p className="text-green-500 text-sm">{message}</p>}
+
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                >
+                  {isLoading ? "Guardando..." : editingId ? "Actualizar" : "Guardar"}
+                </button>
+                {editingId && (
                   <button
                     type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, audioRecording: "" }))}
-                    className="text-sm text-red-500 hover:underline"
+                    onClick={cancelEdit}
+                    className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-colors"
                   >
-                    Eliminar audio
+                    Cancelar
                   </button>
-                </div>
+                )}
+              </div>
+            </form>
+          )}
+
+          {loading && <p>Cargando vocabulario...</p>}
+          {fetchError && <p className="text-red-500">Error: {fetchError}</p>}
+
+          {!loading && !fetchError && vocabulary && (
+            <div className="space-y-4">
+              {vocabulary.length === 0 ? (
+                <p className="text-center text-gray-500">No hay vocabulario guardado</p>
               ) : (
-                <VoiceRecorder onSave={handleAudioSave} />
-              )}
-            </div>
-
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            {message && <p className="text-green-500 text-sm">{message}</p>}
-
-            <div className="flex gap-2">
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="px-4 py-2 bg-[#9d5da0] hover:bg-[#89508b] text-white rounded-md transition disabled:opacity-50"
-              >
-                {isLoading ? "Guardando..." : editingId ? "Actualizar" : "Guardar"}
-              </button>
-              {editingId && (
-                <button
-                  type="button"
-                  onClick={cancelEdit}
-                  className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
-                >
-                  Cancelar
-                </button>
-              )}
-            </div>
-          </form>
-        )}
-
-        {loading && <p>Cargando vocabulario...</p>}
-        {fetchError && <p className="text-red-500">Error: {fetchError}</p>}
-        
-        {!loading && !fetchError && vocabulary && (
-          <div className="space-y-4">
-            {vocabulary.length === 0 ? (
-              <p className="text-center text-gray-500">No hay vocabulario guardado</p>
-            ) : (
-              vocabulary.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-4"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-1">
-                      <h3 className="text-lg font-semibold">{item.word}</h3>
-                      {item.meaning && (
-                        <p className="text-gray-600 dark:text-gray-400">{item.meaning}</p>
-                      )}
-                      {item.example && (
-                        <p className="text-sm text-gray-500 dark:text-gray-500 italic">
-                          "{item.example}"
-                        </p>
-                      )}
-                      <div className="flex gap-2 text-xs">
-                        {item.category && (
-                          <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">
-                            {item.category}
-                          </span>
+                vocabulary.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-4"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-1">
+                        <h3 className="text-lg font-semibold">{item.word}</h3>
+                        {item.meaning && (
+                          <p className="text-gray-600 dark:text-gray-400">{item.meaning}</p>
                         )}
-                        {item.difficulty && (
-                          <span className={`px-2 py-1 rounded ${
-                            item.difficulty === 'easy' ? 'bg-green-200 dark:bg-green-800' :
-                            item.difficulty === 'medium' ? 'bg-yellow-200 dark:bg-yellow-800' :
-                            'bg-red-200 dark:bg-red-800'
-                          }`}>
-                            {item.difficulty}
-                          </span>
+                        {item.example && (
+                          <p className="text-sm text-gray-500 dark:text-gray-500 italic">
+                            "{item.example}"
+                          </p>
+                        )}
+                        <div className="flex gap-2 text-xs">
+                          {item.category && (
+                            <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">
+                              {item.category}
+                            </span>
+                          )}
+                          {item.difficulty && (
+                            <span className={`px-2 py-1 rounded ${item.difficulty === 'easy' ? 'bg-green-200 dark:bg-green-800' :
+                              item.difficulty === 'medium' ? 'bg-yellow-200 dark:bg-yellow-800' :
+                                'bg-red-200 dark:bg-red-800'
+                              }`}>
+                              {item.difficulty}
+                            </span>
+                          )}
+                        </div>
+                        {item.audioRecording && (
+                          <div className="mt-2">
+                            <AudioPlayer src={item.audioRecording} />
+                          </div>
                         )}
                       </div>
-                      {item.audioRecording && (
-                        <div className="mt-2">
-                          <AudioPlayer src={item.audioRecording} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(item.id)}
-                        className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition"
-                      >
-                        Eliminar
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEdit(item)}
+                          className="px-3 py-1 bg-slate-700 text-white text-sm rounded hover:bg-slate-600 transition"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleDeleteClick(item.id)}
+                          className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
-          </div>
-        )}
+                ))
+              )}
+            </div>
+          )}
 
-        <ConfirmationModal
-          isOpen={deleteModalOpen}
-          onClose={() => setDeleteModalOpen(false)}
-          onConfirm={handleConfirmDelete}
-          title="Confirmar eliminación"
-          message="¿Estás seguro de que deseas eliminar esta palabra?"
-        />
+          <ConfirmationModal
+            isOpen={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            onConfirm={handleConfirmDelete}
+            title="Confirmar eliminación"
+            message="¿Estás seguro de que deseas eliminar esta palabra?"
+          />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

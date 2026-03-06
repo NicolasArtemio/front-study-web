@@ -5,6 +5,7 @@ import useUpdate from "../hooks/useUpdate";
 import useDelete from "../hooks/useDelete";
 import { endpoints } from "../services/api";
 import ConfirmationModal from "../components/modals/ConfirmationModal";
+import Layout from "../components/Layout";
 import type { Recommendation, CreateRecommendationDTO } from "../types";
 
 const CATEGORIES = [
@@ -55,7 +56,7 @@ const RecommendationPage = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  
+
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -165,207 +166,209 @@ const RecommendationPage = () => {
   };
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Recomendaciones</h1>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="px-4 py-2 bg-[#9d5da0] hover:bg-[#89508b] text-white rounded-md transition"
-          >
-            {showForm ? "Cerrar" : "Agregar recomendación"}
-          </button>
-        </div>
+    <Layout showBreadcrumbs>
+      <div className="p-6">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Recomendaciones</h1>
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+            >
+              {showForm ? "Cerrar" : "Agregar recomendación"}
+            </button>
+          </div>
 
-        {showForm && (
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md space-y-4"
-          >
-            <div>
-              <label className="block text-sm font-medium mb-1">Título *</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                placeholder="Nombre del recurso"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Descripción *</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                placeholder="Descripción del recurso"
-                rows={3}
-                required
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
+          {showForm && (
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md space-y-4 relative z-50 overflow-visible"
+            >
               <div>
-                <label className="block text-sm font-medium mb-1">Tipo</label>
-                <select
-                  name="type"
-                  value={formData.type}
+                <label className="block text-sm font-medium mb-1">Título *</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+                  placeholder="Nombre del recurso"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Descripción *</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+                  placeholder="Descripción del recurso"
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Tipo</label>
+                  <select
+                    name="type"
+                    value={formData.type}
+                    onChange={handleChange}
+                    className="relative z-20 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  >
+                    <option value="">Seleccionar</option>
+                    {TYPES.map((t) => (
+                      <option key={t.value} value={t.value}>{t.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Prioridad</label>
+                  <select
+                    name="priority"
+                    value={formData.priority}
+                    onChange={handleChange}
+                    className="relative z-20 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  >
+                    <option value="">Seleccionar</option>
+                    {PRIORITIES.map((p) => (
+                      <option key={p.value} value={p.value}>{p.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">URL (opcional)</label>
+                <input
+                  type="url"
+                  name="url"
+                  value={formData.url}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+                  placeholder="https://..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Categoría</label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="relative z-20 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600"
                 >
                   <option value="">Seleccionar</option>
-                  {TYPES.map((t) => (
-                    <option key={t.value} value={t.value}>{t.label}</option>
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
                   ))}
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Prioridad</label>
-                <select
-                  name="priority"
-                  value={formData.priority}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                >
-                  <option value="">Seleccionar</option>
-                  {PRIORITIES.map((p) => (
-                    <option key={p.value} value={p.value}>{p.label}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+              {message && <p className="text-green-500 text-sm">{message}</p>}
 
-            <div>
-              <label className="block text-sm font-medium mb-1">URL (opcional)</label>
-              <input
-                type="url"
-                name="url"
-                value={formData.url}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-                placeholder="https://..."
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Categoría</label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
-              >
-                <option value="">Seleccionar</option>
-                {CATEGORIES.map((cat) => (
-                  <option key={cat.value} value={cat.value}>{cat.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            {message && <p className="text-green-500 text-sm">{message}</p>}
-
-            <div className="flex gap-2">
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="px-4 py-2 bg-[#9d5da0] hover:bg-[#89508b] text-white rounded-md transition disabled:opacity-50"
-              >
-                {isLoading ? "Guardando..." : editingId ? "Actualizar" : "Guardar"}
-              </button>
-              {editingId && (
+              <div className="flex gap-2">
                 <button
-                  type="button"
-                  onClick={cancelEdit}
-                  className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
+                  type="submit"
+                  disabled={isLoading}
+                  className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
                 >
-                  Cancelar
+                  {isLoading ? "Guardando..." : editingId ? "Actualizar" : "Guardar"}
                 </button>
-              )}
-            </div>
-          </form>
-        )}
+                {editingId && (
+                  <button
+                    type="button"
+                    onClick={cancelEdit}
+                    className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                )}
+              </div>
+            </form>
+          )}
 
-        {loading && <p>Cargando recomendaciones...</p>}
-        {fetchError && <p className="text-red-500">Error: {fetchError}</p>}
-        
-        {!loading && !fetchError && recommendations && (
-          <div className="space-y-4">
-            {recommendations.length === 0 ? (
-              <p className="text-center text-gray-500">No hay recomendaciones guardadas</p>
-            ) : (
-              recommendations.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-4"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-2 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-lg font-semibold">{item.title}</h3>
-                        {item.type && (
-                          <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded text-xs">
-                            {getTypeLabel(item.type)}
-                          </span>
+          {loading && <p>Cargando recomendaciones...</p>}
+          {fetchError && <p className="text-red-500">Error: {fetchError}</p>}
+
+          {!loading && !fetchError && recommendations && (
+            <div className="space-y-4">
+              {recommendations.length === 0 ? (
+                <p className="text-center text-gray-500">No hay recomendaciones guardadas</p>
+              ) : (
+                recommendations.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-4"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-2 flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="text-lg font-semibold">{item.title}</h3>
+                          {item.type && (
+                            <span className="px-2 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200 rounded text-xs">
+                              {getTypeLabel(item.type)}
+                            </span>
+                          )}
+                          {item.priority && (
+                            <span className={`px-2 py-1 rounded text-xs ${getPriorityColor(item.priority)}`}>
+                              {item.priority}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-gray-600 dark:text-gray-400">{item.content}</p>
+                        {item.url && (
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-cyan-500 hover:text-purple-600 hover:underline text-sm transition-colors"
+                          >
+                            Ver recurso →
+                          </a>
                         )}
-                        {item.priority && (
-                          <span className={`px-2 py-1 rounded text-xs ${getPriorityColor(item.priority)}`}>
-                            {item.priority}
+                        {item.category && (
+                          <span className="inline-block px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">
+                            {item.category}
                           </span>
                         )}
                       </div>
-                      <p className="text-gray-600 dark:text-gray-400">{item.content}</p>
-                      {item.url && (
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 hover:underline text-sm"
+                      <div className="flex gap-2 ml-4">
+                        <button
+                          onClick={() => handleEdit(item)}
+                          className="px-3 py-1 bg-slate-700 text-white text-sm rounded hover:bg-slate-600 transition"
                         >
-                          Ver recurso →
-                        </a>
-                      )}
-                      {item.category && (
-                        <span className="inline-block px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">
-                          {item.category}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex gap-2 ml-4">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(item.id)}
-                        className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition"
-                      >
-                        Eliminar
-                      </button>
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleDeleteClick(item.id)}
+                          className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
-          </div>
-        )}
+                ))
+              )}
+            </div>
+          )}
 
-        <ConfirmationModal
-          isOpen={deleteModalOpen}
-          onClose={() => setDeleteModalOpen(false)}
-          onConfirm={handleConfirmDelete}
-          title="Confirmar eliminación"
-          message="¿Estás seguro de que deseas eliminar esta recomendación?"
-        />
+          <ConfirmationModal
+            isOpen={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            onConfirm={handleConfirmDelete}
+            title="Confirmar eliminación"
+            message="¿Estás seguro de que deseas eliminar esta recomendación?"
+          />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

@@ -1,9 +1,10 @@
 import { useRoutes } from "react-router-dom";
-import { routes } from "../src/routes/routes"; // Ajusta la ruta si está en otro lugar
+import { routes } from "../src/routes/routes";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   const element = useRoutes(routes);
-  return <>{element}</>;
+  return <AuthProvider>{element}</AuthProvider>;
 }
 
 export default App;

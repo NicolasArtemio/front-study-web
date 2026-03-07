@@ -3,7 +3,8 @@ import { useStats } from "../../hooks/useStats";
 
 export const QuickStats = (): JSX.Element => {
     const stats = useStats();
-    const goalPercentage = (stats.dailyGoal.completed / stats.dailyGoal.total) * 100;
+    const dailyGoal = stats.dailyGoal ?? { completed: 0, total: 5 };
+    const goalPercentage = (dailyGoal.completed / dailyGoal.total) * 100;
 
     return (
         <div className="bg-slate-800/50 backdrop-blur-lg rounded-2xl p-6 border border-slate-700">
@@ -13,7 +14,7 @@ export const QuickStats = (): JSX.Element => {
             <div className="flex items-center gap-3 mb-6">
                 <div className="text-3xl">🔥</div>
                 <div>
-                    <p className="text-2xl font-bold text-white">{stats.streak}</p>
+                    <p className="text-2xl font-bold text-white">{stats.streak ?? 0}</p>
                     <p className="text-sm text-slate-400">días seguidos</p>
                 </div>
             </div>
@@ -23,7 +24,7 @@ export const QuickStats = (): JSX.Element => {
                 <div className="flex justify-between text-sm mb-2">
                     <span className="text-slate-400">Meta diaria</span>
                     <span className="text-purple-400 font-semibold">
-                        {stats.dailyGoal.completed}/{stats.dailyGoal.total}
+                        {dailyGoal.completed}/{dailyGoal.total}
                     </span>
                 </div>
                 <div className="w-full bg-slate-700 rounded-full h-2">
@@ -38,7 +39,7 @@ export const QuickStats = (): JSX.Element => {
             <div className="flex items-center gap-3">
                 <div className="text-3xl">📚</div>
                 <div>
-                    <p className="text-2xl font-bold text-white">{stats.totalWords}</p>
+                    <p className="text-2xl font-bold text-white">{stats.totalWords ?? 0}</p>
                     <p className="text-sm text-slate-400">palabras aprendidas</p>
                 </div>
             </div>

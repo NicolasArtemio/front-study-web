@@ -5,9 +5,21 @@ import { ActivityCards } from "../components/dashboard/ActivityCards";
 import { RecentMistakes } from "../components/dashboard/RecentMistakes";
 import { FAB } from "../components/dashboard/FAB";
 import { useStats } from "../hooks/useStats";
+import { useAuth } from "../context/AuthContext";
 
 const Home = (): JSX.Element => {
   const stats = useStats();
+  const { user } = useAuth();
+
+  if (stats.loading) {
+    return (
+      <Layout showBreadcrumbs={false}>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout showBreadcrumbs={false}>
@@ -23,12 +35,12 @@ const Home = (): JSX.Element => {
           {/* Header */}
           <div className="mb-8 mt-4 lg:mt-8">
             <h1 className="text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white">
-              ¡Hola, Estudiante! 👋
+              ¡Hola, {user?.name || "Estudiante"}! 👋
             </h1>
             <p className="text-slate-600 dark:text-slate-400 mt-2 text-lg">
               Tienes{" "}
               <span className="text-purple-600 dark:text-purple-400 font-semibold">
-                {stats.pendingMistakes} palabras
+                {stats.pendingMistakes ?? 0} palabras
               </span>{" "}
               pendientes por repasar
             </p>
